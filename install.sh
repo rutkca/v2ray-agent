@@ -82,6 +82,14 @@ checkSystem() {
         nginxConfigPath=/etc/nginx/http.d/
     fi
 
+    elif [[ -f "/etc/issue" ]] && grep </etc/issue -q -i "arch" || [[ -f "/proc/version" ]] && grep </proc/version -q -i "Alpine"; then
+        release="Arch"
+        installType='pacman -S'
+        upgrade="pacman -Syyu"
+        removeType='pacman -R'
+        nginxConfigPath=/etc/nginx/http.d/
+    fi
+    
     if [[ -z ${release} ]]; then
         echoContent red "\n本脚本不支持此系统，请将下方日志反馈给开发者\n"
         echoContent yellow "$(cat /etc/issue)"
